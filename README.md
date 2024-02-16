@@ -16,6 +16,22 @@ If you rather want to use GitHub Codespaces, click this button instead:
 
 [![Open locally in Dev Containers](https://img.shields.io/static/v1?label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/dacadeorg/icp-azle-201)
 
+
+## About Library Management
+Library Management is a Dapp built using Azle(Typescript) for the Canister Development and React for the Frontend it Showcases a layout where Books in a Library Can be managed as well as Records about Users of the Library Books. It involves:
+1. Creating,Reading,Updating and Deleting Details of a Book
+2. Creating, Reading, Updating and Deleting of Users
+3. Implemented Filter of Books by Category 
+4. Check Functionality if Book is available
+5. Add Borrowed books to a User
+6. Placing a Reserve 
+
+The Reserve Book at a Price is whereby a reserve for a Book is made at a Fee Reserve Price. Then the Reserve Record can be added using Reserve Book based to a particular UserId and the Corresponding BookId. This is to keep Records of Books eer Reserved by a User
+
+If a User Borrows a book the record is Kept and As for the User Records an Array of the Borrowed Books is Seen as well.
+
+When a User has Returned the Book then their is an update made on the Records available 
+
 ## How to deploy canisters implemented in the course
 
 ### Ledger canister
@@ -49,10 +65,10 @@ Switch to the minter identity:
 Transfer ICP:
 `dfx ledger transfer <ADDRESS>  --memo 0 --icp 100 --fee 0`
 where:
- - `--memo` is some correlation id that can be set to identify some particular transactions (we use that in the marketplace canister).
+ - `--memo` is some correlation id that can be set to identify some particular transactions (we use that in the library canister).
  - `--icp` is the transfer amount
  - `--fee` is the transaction fee. In this case it's 0 because we make this transfer as the minter idenity thus this transaction is of type MINT, not TRANSFER.
- - `<ADDRESS>` is the address of the recipient. To get the address from the principal, you can use the helper function from the marketplace canister - `getAddressFromPrincipal(principal: Principal)`, it can be called via the Candid UI.
+ - `<ADDRESS>` is the address of the recipient. To get the address from the principal, you can use the helper function from the library canister - `getAddressFromPrincipal(principal: Principal)`, it can be called via the Candid UI.
 
 
 ### Internet identity canister
@@ -60,13 +76,13 @@ where:
 `dfx deploy internet_identity` - that is the canister that handles the authentication flow. Once it's deployed, the `js-agent` library will be talking to it to register identities. There is UI that acts as a wallet where you can select existing identities
 or create a new one.
 
-### Marketplace canister
+### Library canister
 
-`dfx deploy dfinity_js_backend` - deploys the marketplace canister where the business logic is implemented.
+`dfx deploy dfinity_js_backend` - deploys the library canister where the business logic is implemented.
 Basically, it implements functions like add, view, update, delete, and buy products + a set of helper functions.
 
 Do not forget to run `dfx generate dfinity_js_backend` anytime you add/remove functions in the canister or when you change the signatures.
 Otherwise, these changes won't be reflected in IDL's and won't work when called using the JS agent.
 
-### Marketplace frontend canister
+### Library frontend canister
 `dfx deploy dfinity_js_frontend` - deployes the frontend app for the `dfinity_js_backend` canister on IC.

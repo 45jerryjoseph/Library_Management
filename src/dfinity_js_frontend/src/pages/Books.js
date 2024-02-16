@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Nav, Button, Form, FloatingLabel } from "react-bootstrap";
 import Wallet from '../components/Wallet';
-import Products from "../components/marketplace/Products";
 import { login, logout as destroy } from "../utils/auth";
 import { balance as principalBalance } from "../utils/ledger"
 import { Notification } from '../components/utils/Notifications';
@@ -10,8 +9,8 @@ import Cover from '../components/utils/Cover';
 import coverImg from "../assets/img/Library.jpg"
 import Users from './Users';
 import BookManagementButtons from '../components/books/BookManagementButtons';
-import BooksView from '../components/marketplace/BooksView';
-import { checkAvailability } from '../utils/marketplace';
+import BooksView from '../components/library/BooksView';
+import { checkAvailability } from '../utils/library';
 
 
 const Books = () => {

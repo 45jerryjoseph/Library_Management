@@ -1,6 +1,6 @@
 import React from 'react'
-import UsersList from '../components/users/UsersList'
 import {  Container } from "react-bootstrap";
+import UsersView from '../components/library/UsersView';
 
 
 const Users = () => {
@@ -8,7 +8,7 @@ const Users = () => {
       <Container fluid="md" >
 
          {/* This will hold the Users structure  */}
-        <UsersList />
+        <UsersView />
       </Container>
 
   )

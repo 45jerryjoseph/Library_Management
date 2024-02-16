@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { toast } from "react-toastify";
 import { NotificationSuccess, NotificationError } from "../utils/Notifications";
 
 import { Container, Row, Col } from 'react-bootstrap';
-import { addReservedBook, addborrowBook, addreturnBook } from '../../utils/marketplace';
+import { addReservedBook, addborrowBook, addreturnBook, getUsers as getUserList } from '../../utils/library';
 import Loader from '../utils/Loader';
 import PlaceReservedBooks from './PlaceReservedBooks';
 import BorrowBook from './BorrowBook';
@@ -13,10 +13,23 @@ const BookManagementButtons = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const getUsers = useCallback( async () => {
+    try {
+      setLoading(true);
+      await getUserList();
+    } catch (error) {
+      console.log({error});
+    } finally {
+      setLoading(false);
+    }
+  })
+
   const placeReserve = async (userId,bookId) => {
     try {
       setLoading(true);
-      addReservedBook(userId, bookId);
+      addReservedBook(userId, bookId).then(()=>{
+        getUsers();
+      });
       toast(<NotificationSuccess text="Book Reserved successfully." />);
     } catch (error) {
       console.log({error});
@@ -29,7 +42,9 @@ const BookManagementButtons = () => {
   const placeBorrow = async (userId,bookId) => {
     try {
       setLoading(true);
-      addborrowBook(userId, bookId);
+      addborrowBook(userId, bookId).then(()=>{
+        getUsers();
+      });
       toast(<NotificationSuccess text="Book Borrowed successfully." />);
     } catch (error) {
       console.log({error});
@@ -42,8 +57,10 @@ const BookManagementButtons = () => {
   const placeReturn = async (userId,bookId) => {
     try {
       setLoading(true);
-      addreturnBook(userId, bookId);
-      toast(<NotificationSuccess text="Book Returned successfully & Updated available Copies." />);
+      addreturnBook(userId, bookId).then(()=>{
+        getUsers();
+      });
+      toast(<NotificationSuccess text="Book Returned successfully" />);
     } catch (error) {
       console.log({error});
       toast(<NotificationError text="Failed to Return a book." />);
@@ -51,6 +68,11 @@ const BookManagementButtons = () => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+      getUsers();
+  }, []);
+
   return (
 
     <>

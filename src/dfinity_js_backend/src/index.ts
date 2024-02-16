@@ -98,6 +98,16 @@ export default Canister({
         return Ok(bookOpt.Some);
     }   
     ),
+
+    getUser: query([text], Result(User, Message), (id) => { 
+        const userOpt = usersStorage.get(id);
+        if ("None" in userOpt) {
+            return Err({ NotFound: `User with id=${id} not found` });
+        }
+        return Ok(userOpt.Some);
+    }   
+    ),
+
     // Filter the books by Category
     filterBooksByCategory: query([text], Vec(Book), (category) => {
         return booksStorage.values().filter((book) => book.category.toLowerCase() === category.toLowerCase());

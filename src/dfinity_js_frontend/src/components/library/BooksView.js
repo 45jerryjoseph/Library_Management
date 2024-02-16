@@ -7,7 +7,7 @@ import {
     createBook,
     filterBooksByCategory,
     getBooks as getBookList
-} from "../../utils/marketplace";
+} from "../../utils/library";
 import AddBook from "./AddBook";
 import Loader from "../utils/Loader";
 import BookView from "./BookView";

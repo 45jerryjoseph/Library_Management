@@ -1,8 +1,12 @@
 import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 import { Card, Button, Col, Badge, Stack, Row } from "react-bootstrap";
+// import { NotificationSuccess, NotificationError } from "../utils/Notifications";
 import { Principal } from "@dfinity/principal";
-import { getBook } from "../../utils/marketplace";
+import { deleteBook, getBook } from "../../utils/library";
+import DeleteBook from "../books/DeleteBook";
+import { NotificationError, NotificationSuccess } from "../utils/Notifications";
 
 
 const BookView = ({ book, buy }) => {
@@ -15,11 +19,22 @@ const BookView = ({ book, buy }) => {
         availableCopies,
         reservePrice,
         reservor,
+        reservedBy,
         dueDate
     } = book;
 
     const triggerBuy = () => {
         buy(id);
+    }
+
+    const removeBook = () => {
+        try {
+            deleteBook(id);
+            toast(<NotificationSuccess text="Book Removed successfully." />);
+        } catch (error) {
+            console.log({error});
+            toast(<NotificationError text="Failed to Remove a Book." />);
+          }
     }
 
     return (
@@ -42,17 +57,18 @@ const BookView = ({ book, buy }) => {
                     <Card.Text className="flex-grow-1 d-flex flex-row "><span className="px-4"><strong>Category:</strong></span>{category}</Card.Text>
                     <Card.Text className="flex-grow-1  "><span className="px-4"><strong>Description:</strong></span>{description}</Card.Text>
                     <Card.Text className="text-secondary">
+                        <span><strong>Reserved By:</strong></span>
                         <span>{reservedBy}</span>
-                        <span>{rbook.borrowedBy}</span>
                     </Card.Text>
                     <Card.Text className="text-secondary">
                         <span><strong>Book Id:</strong></span>
                         <span>{id}</span>
                     </Card.Text>
+                    <DeleteBook remove={removeBook} />
                     <Button
                         variant="outline-dark"
                         onClick={triggerBuy}
-                        className="w-100 py-3"
+                        className="w-100 py-3 mt-2"
                     >
                         Reserve Book for {(reservePrice / BigInt(10**8)).toString()} ICP
                     </Button>
