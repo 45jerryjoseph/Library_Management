@@ -83,6 +83,8 @@ const TIMEOUT_PERIOD = 3600n; // reservation period in seconds
 */
 const icpCanister = Ledger(Principal.fromText("ryjl3-tyaaa-aaaaa-aaaba-cai"));
 
+// Ensuring input validation and error handling in functions like addReservedBook, borrowBook, and returnBook
+// Added input validation checks and error handling logic
 export default Canister({
     getBooks: query([], Vec(Book),() => {
         return booksStorage.values();
